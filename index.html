@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>Happy Birthday</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- 1. COVER -->
+    <section class="scene active" id="cover">
+      <img class="deco lily l1" src="assets/img/lily.png" alt="" />
+      <img class="deco lk" src="assets/img/lily-krem.png" alt="" />
+      <img class="deco flo" src="assets/img/bunga-merah.png" alt="" />
+      <img class="deco ceri" src="assets/img/ceri.png" alt="" />
+      <img class="deco bear" src="assets/img/beruang.png" alt="" />
+      <h1 class="script">Happy Birthday!</h1>
+      <div class="env" id="env">
+        <img src="assets/img/amplop-tertutup.jpg" alt="Amplop" />
+        <button class="seal" id="seal" aria-label="Buka amplop"></button>
+      </div>
+      <p class="cap">Click the seal to open</p>
+    </section>
+
+    <!-- 2. HERO -->
+    <section class="scene" id="hero">
+      <img class="deco lily l1" src="assets/img/lily.png" alt="" />
+      <img class="deco lily l2" src="assets/img/lily.png" alt="" />
+      <img class="deco balon" src="assets/img/balon.png" alt="" />
+      <small class="date">[tanggal]</small>
+      <h1 class="script big">Happy Birthday Bb!</h1>
+      <p>I hope this little gift will make you happy</p>
+      <button class="link" data-go="gifts">Click here</button>
+    </section>
+
+    <!-- 3. GIFTS -->
+    <section class="scene" id="gifts">
+      <img class="deco flo" src="assets/img/bunga-merah.png" alt="" />
+      <img class="deco lily l1" src="assets/img/lily.png" alt="" />
+      <img class="deco kupu" src="assets/img/kupu-kupu.png" alt="" />
+      <img class="deco dl" src="assets/img/daylily.png" alt="" />
+      <div class="giftwrap" id="giftwrap">
+        <button class="giftbox" id="giftbox" aria-label="Buka kado">
+          <img src="assets/img/kado.png" alt="" />
+        </button>
+        <p class="gift-hint" id="gift-hint">
+          Ada hadiah buat kamu<br /><small>ketuk kucingnya</small>
+        </p>
+      </div>
+
+      <div class="reveal">
+        <h2 class="script">These are for you</h2>
+        <div class="row">
+          <button class="item" data-go="letter">
+            <img src="assets/img/amplop-mawar.png" alt="" /><span class="lb"
+              >Message</span
+            >
+          </button>
+          <button class="item" data-go="flower">
+            <img src="assets/img/buket.png" alt="" /><span class="lb"
+              >Flower</span
+            >
+          </button>
+          <button class="item" data-go="memories">
+            <img src="assets/img/kamera-bintang.png" alt="" /><span class="lb"
+              >Memories</span
+            >
+          </button>
+          <button class="item locked" id="cake-item" data-go="cake">
+            <img src="assets/img/kue.png" alt="" />
+            <span class="lb">Cake</span>
+            <span class="lock" id="lockinfo">
+              <svg
+                class="icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <rect x="4" y="10" width="16" height="11" rx="2" />
+                <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+              </svg>
+              <span class="lock-label">0/3</span>
+            </span>
+          </button>
+        </div>
+      </div>
+      <canvas id="gconf"></canvas>
+    </section>
+
+    <!-- 4. LETTER -->
+    <section class="scene" id="letter">
+      <img class="fx flo" src="assets/img/bunga-merah.png" alt="" />
+      <img class="fx lil" src="assets/img/lily-krem.png" alt="" />
+      <div class="stage">
+        <article class="sheet">
+          <div class="txt">
+            <h3>For [Name]</h3>
+            <p>
+              Happy birthday, my dearest [Name]. On this special day, I just
+              want to remind you how much you mean to me. You are not only a
+              wonderful person but also someone who brings light, warmth, and
+              joy into my life every single day.
+            </p>
+            <p>
+              May your birthday be filled with laughter, sweet surprises, and
+              moments that make your heart overflow with happiness. You deserve
+              to be cherished and celebrated, not only today but always. I hope
+              this year brings you endless opportunities, magical adventures,
+              and memories that will stay with you forever.
+            </p>
+            <p>
+              Thank you for being you — for your kindness, your smile, and the
+              way you make everything feel brighter. I feel so lucky to have you
+              in my life, and I look forward to creating more beautiful memories
+              together.
+            </p>
+            <p>
+              So here’s to you, [Name] — to your dreams, your passions, and all
+              the love that surrounds you. May this birthday mark the beginning
+              of a chapter filled with love, success, and happiness beyond
+              measure.
+            </p>
+            <p class="sign">— [Nama kamu]</p>
+          </div>
+        </article>
+        <img class="fx vin" src="assets/img/vinyl-kamera.png" alt="" />
+      </div>
+      <button class="back" data-go="gifts">
+        <svg
+          class="icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="m15 18-6-6 6-6M9 12h12" />
+        </svg>
+        back
+      </button>
+    </section>
+
+    <!-- 5. FLOWER -->
+    <section class="scene" id="flower">
+      <img class="deco flo" src="assets/img/bunga-merah.png" alt="" />
+      <img class="deco lily l1" src="assets/img/lily.png" alt="" />
+      <img class="deco dl" src="assets/img/daylily.png" alt="" />
+      <img class="deco kupu" src="assets/img/kupu-kupu.png" alt="" />
+      <div class="petals" id="petals"></div>
+
+      <div class="cardslot">
+        <p class="fcard hint" id="fcard" aria-live="polite">Ketuk buketnya</p>
+      </div>
+      <button class="bloom" id="bloom" aria-label="Petik bunga">
+        <img class="bq" src="assets/img/buket.png" alt="" />
+      </button>
+      <div class="fdots" id="fdots"></div>
+
+      <h3 class="script lab">Flower</h3>
+      <button class="link" data-go="gifts">Click here</button>
+    </section>
+
+    <!-- 6. MEMORIES -->
+    <section class="scene" id="memories">
+      <img class="deco flo" src="assets/img/bunga-merah.png" alt="" />
+      <img class="deco lily l1" src="assets/img/lily.png" alt="" />
+      <img class="deco kupu" src="assets/img/kupu-kupu.png" alt="" />
+      <img class="deco vk" src="assets/img/vinyl-kamera.png" alt="" />
+      <img class="deco dl" src="assets/img/daylily.png" alt="" />
+      <h2 class="script">Our little memories</h2>
+      <p class="hint">
+        Ketuk tiap foto
+        <svg
+          class="icon heart-icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"
+          />
+        </svg>
+      </p>
+      <div class="wall">
+        <figure
+          class="pol"
+          tabindex="0"
+          role="button"
+          style="--x: 1%; --y: 0%; --r: -5deg"
+          data-msg="Dari semua hari yang pernah kita lewati, hari ini aku paling bersyukur, karena ada kamu."
+        >
+          <img
+            src="assets/img/foto1.jpg"
+            data-fb="assets/img/lily.png"
+            alt=""
+          />
+        </figure>
+        <figure
+          class="pol"
+          tabindex="0"
+          role="button"
+          style="--x: 36%; --y: 2%; --r: 3deg"
+          data-msg="Kamu bikin hal-hal biasa terasa istimewa. Terima kasih sudah selalu ada."
+        >
+          <img
+            src="assets/img/foto2.jpg"
+            data-fb="assets/img/ceri.png"
+            alt=""
+          />
+        </figure>
+        <figure
+          class="pol"
+          tabindex="0"
+          role="button"
+          style="--x: 70%; --y: 0%; --r: -3deg"
+          data-msg="Senyummu itu tempat paling nyaman buat aku pulang."
+        >
+          <img
+            src="assets/img/foto3.jpg"
+            data-fb="assets/img/buket.png"
+            alt=""
+          />
+        </figure>
+        <figure
+          class="pol"
+          tabindex="0"
+          role="button"
+          style="--x: 3%; --y: 50%; --r: 4deg"
+          data-msg="Aku nggak butuh tempat mewah. Duduk di sebelahmu saja sudah lebih dari cukup."
+        >
+          <img
+            src="assets/img/foto4.jpg"
+            data-fb="assets/img/balon.png"
+            alt=""
+          />
+        </figure>
+        <figure
+          class="pol"
+          tabindex="0"
+          role="button"
+          style="--x: 36%; --y: 52%; --r: -4deg"
+          data-msg="Di umur yang baru ini, semoga semua doa baikmu dijawab. Aku mau jadi orang pertama yang bangga sama kamu."
+        >
+          <img
+            src="assets/img/foto5.jpg"
+            data-fb="assets/img/lily-krem.png"
+            alt=""
+          />
+        </figure>
+        <figure
+          class="pol"
+          tabindex="0"
+          role="button"
+          style="--x: 70%; --y: 50%; --r: 3deg"
+          data-msg="Aku sayang kamu, hari ini, besok, dan seterusnya. Selamat ulang tahun."
+        >
+          <img
+            src="assets/img/foto6.jpg"
+            data-fb="assets/img/vinyl-kamera.png"
+            alt=""
+          />
+        </figure>
+        <img class="ceri2" src="assets/img/ceri.png" alt="" />
+      </div>
+      <button class="song-btn" id="vid-btn">
+        <span class="play-ico"></span>Watch our video
+      </button>
+      <button class="link" data-go="gifts">Back</button>
+    </section>
+
+    <!-- 7. CAKE -->
+    <section class="scene" id="cake">
+      <img class="deco lily l1" src="assets/img/lily.png" alt="" />
+      <img class="deco kupu" src="assets/img/kupu-kupu.png" alt="" />
+      <p class="wish" id="wish">
+        Make a wish
+        <svg
+          class="icon sparkle-icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M12 2 14.2 9.8 22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2L12 2Z"
+          />
+        </svg>
+        <br /><small>lalu tiup lilinnya</small>
+      </p>
+      <div class="cakebox" id="cakebox">
+        <img class="kue" src="assets/img/kue.png" alt="Kue ulang tahun" />
+        <span class="candle" style="--x: 31%; --y: 8%"
+          ><i class="flame"></i><i class="smoke"></i
+        ></span>
+        <span class="candle" style="--x: 43%; --y: 9.5%"
+          ><i class="flame"></i><i class="smoke"></i
+        ></span>
+        <span class="candle" style="--x: 56.5%; --y: 8.5%"
+          ><i class="flame"></i><i class="smoke"></i
+        ></span>
+      </div>
+      <button class="blow" id="blow">
+        <svg
+          class="icon wind-icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M3 8h12a3 3 0 1 0-3-3" />
+          <path d="M2 12h17a3 3 0 1 1-3 3" />
+          <path d="M4 16h6a2 2 0 1 1-2 2" />
+        </svg>
+        Tiup
+      </button>
+      <div class="final" id="final">
+        <h2 class="script">Happy Birthday [Name]!</h2>
+        <p>
+          Semoga semua doa baikmu terkabul
+          <svg
+            class="icon heart-icon"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"
+            />
+          </svg>
+        </p>
+        <button class="link" id="relight">Nyalakan lagi</button>
+        <button class="link" data-go="gifts">Back</button>
+      </div>
+      <canvas id="confetti"></canvas>
+      <button class="back" data-go="gifts">
+        <svg
+          class="icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="m15 18-6-6 6-6M9 12h12" />
+        </svg>
+        back
+      </button>
+    </section>
+
+    <!-- 8. SONG -->
+    <section class="scene" id="song">
+      <h2 class="script">This song reminds me of you</h2>
+      <div class="player">
+        <div class="vinyl big"></div>
+        <div class="yt">
+          <iframe
+            id="yt"
+            title="song"
+            allow="autoplay; encrypted-media"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <span class="notes" aria-hidden="true">
+          <svg class="icon" viewBox="0 0 32 32" focusable="false">
+            <path
+              d="M19 4v17.2a4 4 0 1 1-2-3.5V8l12-2v12.2a4 4 0 1 1-2-3.5V4l-8 1.3Z"
+            />
+          </svg>
+        </span>
+      </div>
+      <button class="link" data-go="gifts">Click here</button>
+    </section>
+
+    <!-- VIEWER FOTO + PESAN -->
+    <div class="viewer" id="viewer" aria-hidden="true">
+      <button class="vx" id="vx" aria-label="Tutup">
+        <svg
+          class="icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="m6 6 12 12M18 6 6 18" />
+        </svg>
+      </button>
+      <button class="vn" id="vp" aria-label="Sebelumnya">
+        <svg
+          class="icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+      </button>
+      <figure class="vbox">
+        <img id="vimg" alt="" />
+        <figcaption id="vmsg"></figcaption>
+      </figure>
+      <button class="vn" id="vnx" aria-label="Berikutnya">
+        <svg
+          class="icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+      </button>
+    </div>
+
+    <audio id="bgm" src="assets/audio/lagu.mp3" loop preload="auto"></audio>
+    <button class="mute" id="mute" aria-label="Matikan musik" hidden>
+      <svg
+        class="icon"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d="M9 18V5l12-2v13" />
+        <circle cx="6" cy="18" r="3" />
+        <circle cx="18" cy="16" r="3" />
+      </svg>
+    </button>
+
+    <!-- MODAL VIDEO YOUTUBE -->
+    <div class="vmodal" id="vmodal" aria-hidden="true">
+      <button class="vmx" id="vmx" aria-label="Tutup video">
+        <svg
+          class="icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="m6 6 12 12M18 6 6 18" />
+        </svg>
+      </button>
+      <div class="vframe">
+        <iframe
+          id="vyt"
+          title="Video kita"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
