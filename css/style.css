@@ -209,6 +209,10 @@ body {
 #hero .l2 {
   width: min(42vw, 300px);
 }
+#hero .balon {
+  right: auto;
+  left: 5vw;
+}
 
 /* GIFTS */
 .row {

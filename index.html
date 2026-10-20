@@ -8,6 +8,8 @@
     />
     <title>Happy Birthday</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/theme-putih.css" />
+    <meta name="theme-color" content="#ffffff" />
   </head>
   <body>
     <!-- 1. COVER -->
@@ -29,10 +31,14 @@
     <section class="scene" id="hero">
       <img class="deco lily l1" src="assets/img/lily.png" alt="" />
       <img class="deco lily l2" src="assets/img/lily.png" alt="" />
-      <img class="deco balon" src="assets/img/balon.png" alt="" />
+      <img class="deco dl" src="assets/img/daylily.png" alt="" />
+      <img class="deco kupu" src="assets/img/kupu-kupu.png" alt="" />
       <small class="date">[tanggal]</small>
       <h1 class="script big">Happy Birthday Bb!</h1>
-      <p>I hope this little gift will make you happy</p>
+      <figure class="polaroid">
+        <img src="assets/img/hero.jpg" alt="" />
+        <figcaption>I hope this little gift will make you happy</figcaption>
+      </figure>
       <button class="link" data-go="gifts">Click here</button>
     </section>
 
@@ -82,8 +88,12 @@
                 <rect x="4" y="10" width="16" height="11" rx="2" />
                 <path d="M8 10V7a4 4 0 0 1 8 0v3" />
               </svg>
-              <span class="lock-label">0/3</span>
+              <span class="lock-label">0/4</span>
             </span>
+          </button>
+          <button class="item" data-go="game">
+            <img src="assets/img/beruang.png" alt="" />
+            <span class="lb">Game</span>
           </button>
         </div>
       </div>
@@ -158,7 +168,7 @@
       <div class="fdots" id="fdots"></div>
 
       <h3 class="script lab">Flower</h3>
-      <button class="link" data-go="gifts">Click here</button>
+      <button class="link" data-go="gifts">Back</button>
     </section>
 
     <!-- 6. MEMORIES -->
@@ -344,7 +354,60 @@
       </button>
     </section>
 
-    <!-- 8. SONG -->
+    <!-- 8. GAME -->
+    <section class="scene" id="game">
+      <img class="deco lily l1" src="assets/img/lily.png" alt="" />
+      <img class="deco kupu" src="assets/img/kupu-kupu.png" alt="" />
+      <img class="deco dl" src="assets/img/daylily.png" alt="" />
+      <img class="deco lily l2" src="assets/img/lily.png" alt="" />
+      <h2 class="script">Matching Memories</h2>
+      <p class="gcount" id="gcount">0/6</p>
+      <div class="cards" id="cards"></div>
+      <p class="gmsg" id="gmsg">Cari pasangan yang sama ♡</p>
+
+      <div class="scratch" id="scratch">
+        <h2 class="script sc-title">Satu lagi untuk kamu</h2>
+        <div class="sc-card" id="sc-card">
+          <div class="sc-prize invite">
+            <img class="iv-lily" src="assets/img/lily.png" alt="" />
+            <img class="iv-bear" src="assets/img/beruang.png" alt="" />
+            <p class="iv-kicker">YOU'RE INVITED</p>
+            <h3 class="iv-title">Makan malam, yuk?</h3>
+            <p class="iv-sub">Cuma kita berdua ♡</p>
+            <dl class="iv-info">
+              <div>
+                <dt>Hari</dt>
+                <dd id="iv-date"></dd>
+              </div>
+              <div>
+                <dt>Jam</dt>
+                <dd id="iv-time"></dd>
+              </div>
+              <div>
+                <dt>Tempat</dt>
+                <dd id="iv-place"></dd>
+              </div>
+            </dl>
+            <p class="iv-note" id="iv-note"></p>
+            <span class="iv-stamp" id="iv-stamp">Accepted ♡</span>
+          </div>
+          <canvas id="sc-cv"></canvas>
+        </div>
+        <p class="sc-hint" id="sc-hint">Gosok kartunya</p>
+        <div class="iv-actions" id="iv-actions">
+          <button class="iv-yes" id="iv-yes">Aku mau ♡</button>
+          <a class="iv-cal" id="iv-cal" download="makan-malam.ics" href="#"
+            >Tambah ke kalender</a
+          >
+        </div>
+        <button class="link" data-go="gifts">Back</button>
+      </div>
+
+      <canvas id="gameconf"></canvas>
+      <button class="back" data-go="gifts">← back</button>
+    </section>
+
+    <!-- 9. SONG -->
     <section class="scene" id="song">
       <h2 class="script">This song reminds me of you</h2>
       <div class="player">

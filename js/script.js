@@ -15,9 +15,10 @@ function show(id) {
   if (id === "cake") relight();
   if (id === "flower") startPetals();
   else stopPetals();
+  if (id === "game") initGame();
 }
 
-const GIFTS_NEEDED = 3;
+const GIFTS_NEEDED = 4;
 const opened = new Set();
 
 function updateCake() {
@@ -244,7 +245,7 @@ function confetti() {
   const c = cv.getContext("2d");
   cv.width = cv.offsetWidth;
   cv.height = cv.offsetHeight;
-  const cols = ["#ff4d6d", "#ffd27a", "#fff", "#ff9ab0", "#c9202c"];
+  const cols = ["#ff4d6d", "#f5b94a", "#ff9ab0", "#c9202c", "#e86f8a"];
   const ps = Array.from({ length: 140 }, () => ({
     x: Math.random() * cv.width,
     y: -20 - Math.random() * cv.height * 0.6,
@@ -304,7 +305,7 @@ function burst(cx, cy) {
   const R = cv.getBoundingClientRect();
   cx -= R.left;
   cy -= R.top;
-  const cols = ["#ff4d6d", "#ffd27a", "#ffffff", "#ff9ab0", "#c9202c", "#f7c6d0"];
+  const cols = ["#ff4d6d", "#f5b94a", "#ff9ab0", "#c9202c", "#e86f8a", "#f7c6d0"];
   const ps = Array.from({ length: 170 }, () => {
     const a = (-90 + (Math.random() - 0.5) * 140) * Math.PI / 180;
     const v = 7 + Math.random() * 13;
@@ -356,7 +357,7 @@ const bloomBtn = $("#bloom");
 const fcard = $("#fcard");
 const fdots = $("#fdots");
 const petalBox = $("#petals");
-const PCOL = ["#ffb3c1", "#ff7a93", "#e8344f", "#ffe3e8"];
+const PCOL = ["#ffa9ba", "#ff7a93", "#e8344f", "#f7c6d0"];
 const rnd = (a, b) => a + Math.random() * (b - a);
 let fi = 0;
 let petalTimer = null;
@@ -420,4 +421,266 @@ bloomBtn.addEventListener("click", () => {
   void bloomBtn.offsetWidth;
   bloomBtn.classList.add("pop");
   burstPetals();
+});
+
+// ---------- Game: cocokkan kartu + kartu gosok ----------
+const GAME_PAIRS = [
+  { img: "assets/img/foto1.jpg", fb: "assets/img/lily.png", msg: "Kamu alasan aku senyum tanpa sadar ♡" },
+  { img: "assets/img/foto2.jpg", fb: "assets/img/ceri.png", msg: "Di sebelah kamu, semuanya terasa lebih tenang." },
+  { img: "assets/img/foto3.jpg", fb: "assets/img/buket.png", msg: "Terima kasih sudah sabar sama aku." },
+  { img: "assets/img/foto4.jpg", fb: "assets/img/balon.png", msg: "Aku suka caramu tertawa." },
+  { img: "assets/img/foto5.jpg", fb: "assets/img/kue.png", msg: "Apa pun yang terjadi, aku bakal ada buat kamu." },
+  { img: "assets/img/foto6.jpg", fb: "assets/img/kupu-kupu.png", msg: "Aku sayang kamu, banget ♡" },
+];
+
+let gLock = false;
+let gFirst = null;
+let gMatched = 0;
+
+function initGame() {
+  const box = $("#cards");
+  box.innerHTML = "";
+  gLock = false;
+  gFirst = null;
+  gMatched = 0;
+  $("#gcount").textContent = `0/${GAME_PAIRS.length}`;
+  $("#gmsg").textContent = "Cari pasangan yang sama ♡";
+  $("#scratch").classList.remove("on");
+  const deck = GAME_PAIRS.flatMap((p, i) => [i, i]);
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  deck.forEach((k) => {
+    const c = document.createElement("button");
+    c.className = "card";
+    c.dataset.k = k;
+    c.setAttribute("aria-label", "Kartu");
+    c.innerHTML =
+      '<span class="in">' +
+        '<span class="face bk"><span class="cov">♡</span><img class="fr" src="assets/img/frame-polaroid.png" alt=""></span>' +
+        '<span class="face front"><img class="ph" alt=""><img class="fr" src="assets/img/frame-polaroid.png" alt=""></span>' +
+      '</span>';
+    const img = c.querySelector(".ph");
+    img.src = GAME_PAIRS[k].img;
+    img.onerror = () => {
+      if (!img.dataset.d) {
+        img.dataset.d = 1;
+        img.src = GAME_PAIRS[k].fb;
+      }
+    };
+    c.addEventListener("click", () => flipCard(c));
+    box.appendChild(c);
+  });
+}
+
+function flipCard(c) {
+  if (gLock || c.classList.contains("flip")) return;
+  c.classList.add("flip");
+  if (!gFirst) {
+    gFirst = c;
+    return;
+  }
+  const a = gFirst;
+  const b = c;
+  gFirst = null;
+  gLock = true;
+  if (a.dataset.k === b.dataset.k) {
+    setTimeout(() => {
+      a.classList.add("done");
+      b.classList.add("done");
+      gLock = false;
+      gMatched++;
+      $("#gcount").textContent = `${gMatched}/${GAME_PAIRS.length}`;
+      const m = $("#gmsg");
+      m.classList.remove("pop");
+      void m.offsetWidth;
+      m.textContent = GAME_PAIRS[a.dataset.k].msg;
+      m.classList.add("pop");
+      if (gMatched === GAME_PAIRS.length) setTimeout(winGame, 900);
+    }, 450);
+  } else {
+    setTimeout(() => {
+      a.classList.remove("flip");
+      b.classList.remove("flip");
+      gLock = false;
+    }, 850);
+  }
+}
+
+function winGame() {
+  $("#gmsg").textContent = "Semua pasangan ketemu! ♡";
+  gameConfetti(true);
+  setTimeout(() => {
+    $("#scratch").classList.add("on");
+    setupScratch();
+  }, 1400);
+}
+
+const scv = $("#sc-cv");
+const scx = scv.getContext("2d");
+let scratching = false;
+let scStrokes = 0;
+let scDone = false;
+
+function setupScratch() {
+  const card = $("#sc-card");
+  const w = card.clientWidth;
+  const h = card.clientHeight;
+  scv.width = w;
+  scv.height = h;
+  scv.classList.remove("clear");
+  scDone = false;
+  scStrokes = 0;
+  fillInvite();
+  $("#sc-hint").textContent = "Gosok kartunya";
+  scx.globalCompositeOperation = "source-over";
+  const g = scx.createLinearGradient(0, 0, w, h);
+  g.addColorStop(0, "#c9ccd1");
+  g.addColorStop(0.5, "#f3f4f6");
+  g.addColorStop(1, "#b7bcc4");
+  scx.fillStyle = g;
+  scx.fillRect(0, 0, w, h);
+  scx.fillStyle = "#8a909966";
+  scx.font = "600 18px serif";
+  scx.textAlign = "center";
+  for (let y = 26; y < h; y += 34) {
+    for (let x = (y / 34) % 2 ? 20 : 50; x < w; x += 60) {
+      scx.fillText("♡", x, y);
+    }
+  }
+  scx.fillStyle = "#5d636d";
+  scx.font = "600 20px serif";
+  scx.fillText("GOSOK DI SINI", w / 2, h / 2 + 6);
+}
+
+function scratchAt(e) {
+  const r = scv.getBoundingClientRect();
+  const x = (e.clientX - r.left) * scv.width / r.width;
+  const y = (e.clientY - r.top) * scv.height / r.height;
+  scx.globalCompositeOperation = "destination-out";
+  scx.beginPath();
+  scx.arc(x, y, 26, 0, 7);
+  scx.fill();
+  if (++scStrokes % 12 === 0) checkScratch();
+}
+
+scv.addEventListener("pointerdown", (e) => {
+  scratching = true;
+  scv.setPointerCapture(e.pointerId);
+  scratchAt(e);
+});
+scv.addEventListener("pointermove", (e) => {
+  if (scratching) scratchAt(e);
+});
+["pointerup", "pointercancel"].forEach((t) =>
+  scv.addEventListener(t, () => (scratching = false)),
+);
+
+function checkScratch() {
+  if (scDone) return;
+  const d = scx.getImageData(0, 0, scv.width, scv.height).data;
+  let clear = 0;
+  let n = 0;
+  for (let i = 3; i < d.length; i += 64) {
+    n++;
+    if (d[i] < 40) clear++;
+  }
+  if (clear / n > 0.5) {
+    scDone = true;
+    scv.classList.add("clear");
+    $("#sc-hint").textContent = "Ada undangan buat kamu ♡";
+    $("#iv-actions").classList.add("on");
+    gameConfetti(false);
+  }
+}
+
+function gameConfetti(big) {
+  const cv = $("#gameconf");
+  const c = cv.getContext("2d");
+  cv.width = cv.offsetWidth;
+  cv.height = cv.offsetHeight;
+  const cols = ["#ff4d6d", "#f5b94a", "#ff9ab0", "#c9202c", "#e86f8a"];
+  const ps = Array.from({ length: big ? 150 : 70 }, () => ({
+    x: Math.random() * cv.width,
+    y: -20 - Math.random() * cv.height * 0.5,
+    w: 6 + Math.random() * 6,
+    h: 10 + Math.random() * 8,
+    vy: 2 + Math.random() * 3,
+    vx: -1 + Math.random() * 2,
+    r: Math.random() * 6,
+    vr: -0.2 + Math.random() * 0.4,
+    col: cols[Math.floor(Math.random() * cols.length)],
+  }));
+  let t = 0;
+  (function f() {
+    c.clearRect(0, 0, cv.width, cv.height);
+    ps.forEach((p) => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.r += p.vr;
+      c.save();
+      c.translate(p.x, p.y);
+      c.rotate(p.r);
+      c.fillStyle = p.col;
+      c.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      c.restore();
+    });
+    if (++t < 240) requestAnimationFrame(f);
+    else c.clearRect(0, 0, cv.width, cv.height);
+  })();
+}
+
+// ---------- Undangan makan malam ----------
+const DINNER = {
+  tanggal: "2026-10-24",
+  jam: "19:00",
+  tempat: "[nama tempat]",
+  alamat: "",
+  catatan: "Pakai baju favoritmu, sisanya biar aku yang urus ♡",
+};
+
+function fillInvite() {
+  const d = DINNER.tanggal ? new Date(`${DINNER.tanggal}T${DINNER.jam || "19:00"}`) : null;
+  const ok = !!d && !isNaN(d);
+  $("#iv-date").textContent = ok
+    ? d.toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" })
+    : "[tanggal]";
+  $("#iv-time").textContent = DINNER.jam || "[jam]";
+  $("#iv-place").textContent = DINNER.tempat;
+  $("#iv-note").textContent = DINNER.catatan;
+
+  $("#iv-stamp").classList.remove("on");
+  $("#iv-actions").classList.remove("on");
+  const yes = $("#iv-yes");
+  yes.disabled = false;
+  yes.textContent = "Aku mau ♡";
+
+  const cal = $("#iv-cal");
+  cal.style.display = ok ? "" : "none";
+  if (ok) {
+    const p = (n) => String(n).padStart(2, "0");
+    const f = (x) => `${x.getFullYear()}${p(x.getMonth() + 1)}${p(x.getDate())}T${p(x.getHours())}${p(x.getMinutes())}00`;
+    const end = new Date(d.getTime() + 2 * 3600 * 1000);
+    const ics = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "BEGIN:VEVENT",
+      "SUMMARY:Makan malam berdua ♡",
+      `DTSTART:${f(d)}`,
+      `DTEND:${f(end)}`,
+      `LOCATION:${DINNER.tempat}${DINNER.alamat ? ", " + DINNER.alamat : ""}`,
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].join("\r\n");
+    cal.href = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
+  }
+}
+
+$("#iv-yes").addEventListener("click", (e) => {
+  e.target.disabled = true;
+  e.target.textContent = "Sampai ketemu ♡";
+  $("#iv-stamp").classList.add("on");
+  $("#sc-hint").textContent = "Yeay! Aku tunggu ya ♡";
+  gameConfetti(true);
 });
